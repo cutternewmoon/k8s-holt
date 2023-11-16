@@ -151,7 +151,7 @@ spec:
 
       # -- Add custom dns entries to override the dns resolution. All lines will be added to the pihole dnsmasq configuration.
       customDnsEntries: []
-       - address=/internal.cutternewmoon.com/192.168.30.97
+        - address=/internal.cutternewmoon.com/192.168.30.97
       # - address=/foo.bar/192.168.178.10
       # - address=/bar.foo/192.168.178.11
 
