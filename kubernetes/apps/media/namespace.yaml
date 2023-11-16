@@ -1,3 +1,4 @@
+## test adding a comment
 kind: Namespace
 apiVersion: v1
 metadata:
