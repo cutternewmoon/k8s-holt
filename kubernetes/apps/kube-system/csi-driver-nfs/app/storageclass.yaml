@@ -1,0 +1,24 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: config
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: 192.168.30.180
+  share: /volume1/k8s-config
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+mountOptions: ["hard", "noatime"]
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: media
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: 192.168.30.180
+  share: /volume1/MikeFlixStorage
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+mountOptions: ["hard", "noatime"]
