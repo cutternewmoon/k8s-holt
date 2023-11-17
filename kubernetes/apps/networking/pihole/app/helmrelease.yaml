@@ -60,9 +60,9 @@ spec:
       hosts:
         - *host
       tls:
-        - secretName: 
-          - hosts:
-            - *host
+        - secretName:
+            - hosts:
+                - *host
       annotations:
         hajimari.io/icon: mdi:raspberry-pi
         hajimari.io/group: "networking"
