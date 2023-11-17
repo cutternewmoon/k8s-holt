@@ -6,5 +6,5 @@ metadata:
   namespace: flux-system
 spec:
   interval: 15m
-  url: https://mojo2600.github.io/pihole-kubernetes
+  url: https://home-ops.github.io/charts/
   timeout: 3m
