@@ -88,8 +88,9 @@ spec:
       enabled: true
       existingClaim: pihole-data-pvc
     admin:
-      existingSecret: "pihole-secret"
-      passwordKey: "PIHOLE_ADMIN_PASS"
+      # existingSecret: "pihole-secret"
+      # passwordKey: "PIHOLE_ADMIN_PASS"
+      adminPassword: HvaqQu.hqoR-W9Nv
     extraEnvVars:
       TZ: "America/Denver"
     DNS1: "1.1.1.2"
