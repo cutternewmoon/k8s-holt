@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -16,14 +17,44 @@ spec:
         namespace: flux-system
   interval: 30m
   values:
-    controller:
-      type: statefulset
-      annotations:
-        reloader.stakater.com/auto: "true"
+    controllers:
+      main:
+        type: statefulset
+        annotations:
+          reloader.stakater.com/auto: "true"
 
-    image:
-      repository: ghcr.io/onedr0p/plex
-      tag: rolling
+        statefulset:
+          volumeClaimTemplates:
+            - name: config
+              accessMode: ReadWriteOnce
+              size: 50Gi
+              storageClass: k8s-config
+              globalMounts:
+                - path: /config
+
+        pod:
+          enableServiceLinks: false
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: "OnRootMismatch"
+            supplementalGroups:
+              - 44
+              - 109
+              - 65539
+
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/plex
+              tag: rolling
+            resources:
+              requests:
+                cpu: 100m
+                memory: 4282M
+              limits:
+                memory: 12G
 
     service:
       main:
@@ -38,50 +69,28 @@ spec:
       main:
         enabled: true
         annotations:
-          # Not ready for external access yet
-          # external-dns.alpha.kubernetes.io/target: ingress.bjw-s.dev
+          external-dns.alpha.kubernetes.io/target: external.cutternewmoon.com
           nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-        ingressClassName: nginx
+        className: "external-nginx"
         hosts:
           - host: &host plex.cutternewmoon.com
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
+
     persistence:
-      media:
-        enabled: true
+      nfs-nas-media:
         existingClaim: glabmediaclaim
-        mountpath: /Media
+        advancedMounts:
+          main:
+            main:
+              - path: /Media
       transcode:
-        enabled: true
         type: emptyDir
-
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
-      supplementalGroups:
-        - 44
-        - 109
-        - 65539
-
-          # nodeSelector:
-          # intel.feature.node.kubernetes.io/gpu: "true"
-
-    resources:
-      requests:
-        cpu: 100m
-        memory: 4282M
-      limits:
-        memory: 12G
-
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 20Gi
-        storageClass: config
+        globalMounts:
+          - path: /transcode

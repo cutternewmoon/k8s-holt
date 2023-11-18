@@ -1,0 +1,87 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: plex
+  namespace: media
+spec:
+  chart:
+    spec:
+      chart: app-template
+      version: 2.2.0
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  interval: 30m
+  values:
+    controller:
+      type: statefulset
+      annotations:
+        reloader.stakater.com/auto: "true"
+
+    image:
+      repository: ghcr.io/onedr0p/plex
+      tag: rolling
+
+    service:
+      main:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        loadBalancerIP: 192.168.30.155
+        ports:
+          http:
+            port: 32400
+
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          # Not ready for external access yet
+          # external-dns.alpha.kubernetes.io/target: ingress.bjw-s.dev
+          nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+        ingressClassName: nginx
+        hosts:
+          - host: &host plex.cutternewmoon.com
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      media:
+        enabled: true
+        existingClaim: glabmediaclaim
+        mountpath: /Media
+      transcode:
+        enabled: true
+        type: emptyDir
+
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups:
+        - 44
+        - 109
+        - 65539
+
+          # nodeSelector:
+          # intel.feature.node.kubernetes.io/gpu: "true"
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 4282M
+      limits:
+        memory: 12G
+
+    volumeClaimTemplates:
+      - name: config
+        mountPath: /config
+        accessMode: ReadWriteOnce
+        size: 20Gi
+        storageClass: config
