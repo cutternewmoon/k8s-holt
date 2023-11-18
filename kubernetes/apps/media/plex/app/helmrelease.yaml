@@ -71,7 +71,7 @@ spec:
         annotations:
           external-dns.alpha.kubernetes.io/target: external.cutternewmoon.com
           nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-        className: "external-nginx"
+        className: external
         hosts:
           - host: &host plex.cutternewmoon.com
             paths:
