@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./storage.yaml
-  - ./plex/ks.yaml
+    # - ./plex/ks.yaml
