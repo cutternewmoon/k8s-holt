@@ -69,16 +69,17 @@ spec:
       main:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/target: external.cutternewmoon.com
+          external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
           nginx.ingress.kubernetes.io/backend-protocol: HTTPS
         className: external
         hosts:
-          - host: &host plex.cutternewmoon.com
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
-                service:
-                  name: main
-                  port: http
+                pathType: Prefix
+                # service:
+                # name: main
+                # port: 32400
         tls:
           - hosts:
               - *host
