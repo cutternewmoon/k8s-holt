@@ -49,6 +49,8 @@ spec:
             image:
               repository: ghcr.io/onedr0p/plex
               tag: rolling
+            env:
+              PLEX_PREFERENCE_1: "allowedNetworks=192.168.1.1/24,192.168.30.1/24"
             resources:
               requests:
                 cpu: 100m
