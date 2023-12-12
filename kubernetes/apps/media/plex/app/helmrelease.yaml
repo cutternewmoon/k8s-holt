@@ -16,6 +16,9 @@ spec:
         name: bjw-s
         namespace: flux-system
   interval: 30m
+  dependsOn:
+    - name: intel-device-plugin-gpu
+      namespace: kube-system
   values:
     controllers:
       main:
@@ -53,9 +56,11 @@ spec:
               PLEX_PREFERENCE_1: "allowedNetworks=192.168.1.1/24,192.168.30.1/24"
             resources:
               requests:
+                gpu.intel.com/i915: 1
                 cpu: 100m
                 memory: 8G
               limits:
+                gpu.intel.com/i915: 1
                 memory: 12G
 
     service:
