@@ -18,6 +18,17 @@ spec:
   values:
     controllers:
       main:
+        type: statefulset
+        annotations:
+          reloader.stakater.com/auto: "true"
+        statefulset:
+          volumeClaimTemplates:
+            - name: config
+              accessMode: ReadWriteOnce
+              size: 50Gi
+              storageClass: k8s-config
+              globalMounts:
+                - path: /config
         pod:
           securityContext:
             runAsNonRoot: true
