@@ -40,9 +40,6 @@ spec:
               SONARR__ANALYTICS_ENABLED: "False"
               SONARR__THEME: dark
               COMPlus_EnableDiagnostics: "0"
-            envFrom:
-              - secretRef:
-                  name: *secret
             probes:
               liveness: &probes
                 enabled: true
