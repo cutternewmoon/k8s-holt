@@ -29,6 +29,13 @@ spec:
               - 65536
         containers:
           main:
+            volumeClaimTemplates:
+              - name: config
+                accessMode: ReadWriteOnce
+                size: 50Gi
+                storageClass: k8s-config
+                globalMounts:
+                  - path: /config
             image:
               repository: ghcr.io/onedr0p/sonarr-develop
               tag: 4.0.0.737
@@ -77,13 +84,6 @@ spec:
         existingClaim: glabdownloadsclaim
         globalMounts:
           - path: /media
-            retain: true
-      config:
-        enabled: true
-        type: persistentVolumeClaim
-        storageClassName: k8s-config
-        globalMounts:
-          - path: /config
             retain: true
     ingress:
       main:
