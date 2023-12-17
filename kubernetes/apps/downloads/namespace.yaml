@@ -1,8 +1,6 @@
-## test adding a comment
-## test adding a comment again
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: media
+  name: downloads
   labels:
-    name: media
+    name: downloads
