@@ -55,6 +55,7 @@ spec:
               PROWLARR__INSTANCE_NAME: ${APP}
               PROWLARR__PORT: &port 80
               PROWLARR__AUTHENTICATION_METHOD: Forms
+              PROWLARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
               PROWLARR__ANALYTICS_ENABLED: "False"
               PROWLARR__THEME: dark
               COMPlus_EnableDiagnostics: "0"
