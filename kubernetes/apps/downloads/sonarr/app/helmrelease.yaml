@@ -80,6 +80,7 @@ spec:
             retain: true
       config:
         enabled: true
+        type: persistentVolumeClaim
         storageClassName: k8s-config
         globalMounts:
           - path: /config
