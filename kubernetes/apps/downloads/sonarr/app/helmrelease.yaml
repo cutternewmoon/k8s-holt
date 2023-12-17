@@ -81,7 +81,7 @@ spec:
     persistence:
       media:
         enabled: true
-        existingClaim: glabdownloadspvc
+        existingClaim: glabdownloadsclaim
         globalMounts:
           - path: /media
             retain: true
