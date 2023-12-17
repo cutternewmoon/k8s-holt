@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: glabmediapv
+  name: glabdownloadspv
   namespace: downloads
 spec:
   capacity:
@@ -21,7 +21,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: glabmediaclaim
+  name: glabdownloadsclaim
   namespace: downloads
 spec:
   accessModes:
