@@ -19,6 +19,7 @@ spec:
       main:
         type: cronjob
         annotations:
+          secret.reloader.stakater.com/reload: &secret recyclarr-secret
           configmap.reloader.stakater.com/reload: &configmap recyclarr-configmap
         cronjob:
           schedule: "@daily"
