@@ -8,6 +8,7 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-csi-driver-nfs
+    - name: cluster-apps-external-secrets
   path: ./kubernetes/apps/downloads/sonarr/app
   prune: true
   sourceRef:

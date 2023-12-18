@@ -20,7 +20,7 @@ spec:
       main:
         type: statefulset
         annotations:
-          reloader.stakater.com/auto: "true"
+          secret.reloader.stakater.com/reload: &secret prowlarr-secret
         statefulset:
           volumeClaimTemplates:
             - name: config
@@ -59,6 +59,9 @@ spec:
               PROWLARR__ANALYTICS_ENABLED: "False"
               PROWLARR__THEME: dark
               COMPlus_EnableDiagnostics: "0"
+            envFrom:
+              - secretRef:
+                  name: *secret
             probes:
               liveness: &probes
                 enabled: true
