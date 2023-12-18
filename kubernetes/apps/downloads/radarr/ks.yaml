@@ -8,7 +8,7 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-csi-driver-nfs
-    - name: cluster-apps-external-secrets
+    - name: cluster-apps-external-secrets-stores
   path: ./kubernetes/apps/downloads/radarr/app
   prune: true
   sourceRef:
