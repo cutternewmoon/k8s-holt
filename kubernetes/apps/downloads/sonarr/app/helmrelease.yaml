@@ -99,6 +99,8 @@ spec:
         globalMounts:
           - path: /media
             retain: true
+      tmp:
+        type: emptydir
     ingress:
       main:
         enabled: true
