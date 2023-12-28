@@ -114,3 +114,5 @@ spec:
         globalMounts:
           - path: /media
             retain: true
+      tmp:
+        type: emptyDir
