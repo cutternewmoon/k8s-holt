@@ -100,7 +100,7 @@ spec:
           - path: /media
             retain: true
       tmp:
-        type: emptydir
+        type: emptyDir
     ingress:
       main:
         enabled: true
