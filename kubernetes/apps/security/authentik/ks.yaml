@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: authentik-redis
-    - name: cluster-apps-cloudnative-pg-cluster
+    - name: cloudnative-pg-cluster
     - name: cluster-apps-external-secrets-stores
   path: ./kubernetes/main/apps/security/authentik/app
   prune: true
