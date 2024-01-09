@@ -36,7 +36,7 @@ spec:
               size: 50Gi
               storageClass: k8s-config
               globalMounts:
-                - path: /config
+                - path: /app/config
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
