@@ -6,3 +6,4 @@ resources:
   - ./overseerr/ks.yaml
   - ./storage.yaml
   - ./plex/ks.yaml
+  - ./wizarr/ks.yaml
