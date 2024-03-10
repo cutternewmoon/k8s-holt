@@ -1,0 +1,87 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app pgadmin
+  namespace: database
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        annotations:
+          secret.reloader.stakater.com/reload: &secret pgadmin-secret
+        initContainers:
+          volume-permissions:
+            image:
+              repository: dpage/pgadmin4
+              tag: "8.4@sha256:18cd5711fc9a7ed633a5c4b2b1a8f3e969d9262a94b8166c79fe0bba52697788"
+            command: ["/bin/chown", "-R", "5050:5050", "/var/lib/pgadmin"]
+            volumeMounts:
+              - name: config
+                mountPath: /var/lib/pgadmin
+            securityContext:
+              runAsUser: 0
+        containers:
+          main:
+            image:
+              repository: dpage/pgadmin4
+              tag: "8.4@sha256:18cd5711fc9a7ed633a5c4b2b1a8f3e969d9262a94b8166c79fe0bba52697788"
+            env:
+              PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
+            envFrom:
+              - secretRef:
+                  name: *secret
+            resources:
+              requests:
+                cpu: 50m
+                memory: 100Mi
+              limits:
+                memory: 500Mi
+    service:
+      main:
+        ports:
+          http:
+            port: 80
+    ingress:
+      main:
+        enabled: true
+        className: "internal"
+        annotations:
+          hajimari.io/icon: mdi:database
+        hosts:
+          - host: &host "{{ .Release.Name }}.${EXTERNAL_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      config:
+        enabled: true
+        existingClaim: pgadmin-config
+        globalMounts:
+          - path: /var/lib/pgadmin
