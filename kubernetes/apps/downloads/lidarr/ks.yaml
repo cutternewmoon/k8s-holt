@@ -20,3 +20,4 @@ spec:
   dependsOn:
     - name: cluster-apps-csi-driver-nfs
     - name: cluster-apps-external-secrets-stores
+    - name: cloudnative-pg-cluster
