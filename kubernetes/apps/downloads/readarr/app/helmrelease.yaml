@@ -1,0 +1,114 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/ishioni/CRDs-catalog/main/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: readarr
+  namespace: downloads
+spec:
+  chart:
+    spec:
+      chart: app-template
+      version: 2.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  interval: 30m
+  values:
+    controllers:
+      main:
+        type: statefulset
+        annotations:
+          secret.reloader.stakater.com/reload: &secret readarr-secret
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: readarr-secret
+        statefulset:
+          volumeClaimTemplates:
+            - name: config
+              accessMode: ReadWriteOnce
+              size: 50Gi
+              storageClass: k8s-config
+              globalMounts:
+                - path: /config
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1027
+            runAsGroup: 1027
+            fsGroup: 1027
+            fsGroupChangePolicy: OnRootMismatch
+            supplementalGroups:
+              - 65536
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/readarr-develop
+              tag: 0.3.18.2411
+            env:
+              TZ: "${CONFIG_TIMEZONE}"
+              READARR__INSTANCE_NAME: ${APP}
+              READARR__PORT: &port 80
+              READARR__AUTHENTICATION_METHOD: None
+              READARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
+              RADARR__ANALYTICS_ENABLED: "False"
+              COMPlus_EnableDiagnostics: "0"
+            envFrom:
+              - secretRef:
+                  name: *secret
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 50m
+                memory: 200Mi
+              limits:
+                memory: 2000Mi
+    service:
+      main:
+        ports:
+          http:
+            port: *port
+    persistence:
+      media:
+        enabled: true
+        existingClaim: glabdownloadsclaim
+        globalMounts:
+          - path: /media
+            retain: true
+    ingress:
+      main:
+        enabled: true
+        className: internal
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls: [hosts: [*host]]
