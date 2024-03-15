@@ -22,5 +22,6 @@ resources:
   - ./node-feature-discovery.yaml
   - ./prometheus-community.yaml
   - ./pihole-charts.yaml
+  - ./servicenow-charts.yaml
   - ./stakater.yaml
   - ./weave-gitops.yaml
