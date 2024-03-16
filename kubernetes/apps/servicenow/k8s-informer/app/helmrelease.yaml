@@ -25,6 +25,7 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    acceptEula: "Y"
     instance:
       name: drwbwe
       domain: service-now.com
