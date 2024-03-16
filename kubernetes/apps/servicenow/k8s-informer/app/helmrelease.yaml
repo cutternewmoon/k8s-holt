@@ -30,6 +30,6 @@ spec:
       name: drwbwe
       domain: service-now.com
     clusterName: GallagherLab
-    instanceCredSecretName: k8s-informer-cred-drwbwe
+    instanceCredSecretName: k8s-informer-cred
     podAnnotations:
       secret.reloader.stakater.com/reload: k8s-informer-cred-drwbwe
