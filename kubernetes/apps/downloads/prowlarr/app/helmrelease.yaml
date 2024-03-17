@@ -58,7 +58,7 @@ spec:
                   - path: /config
             image:
               repository: ghcr.io/onedr0p/prowlarr
-              tag: 1.12.2.4211
+              tag: 1.14.3.4333
             env:
               TZ: "${CONFIG_TIMEZONE}"
               PROWLARR__INSTANCE_NAME: ${APP}
