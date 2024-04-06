@@ -134,7 +134,7 @@ spec:
             paths:
               - path: /
                 service:
-                  identifier: api
+                  identifier: app
                   port: http
         tls:
           - hosts: [*host]
