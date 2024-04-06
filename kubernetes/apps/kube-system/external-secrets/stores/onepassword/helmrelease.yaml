@@ -26,12 +26,12 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      onepassword-connect:
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          api:
             image:
               repository: docker.io/1password/connect-api
               tag: 1.7.2@sha256:6aa94cf713f99c0fa58c12ffdd1b160404b4c13a7f501a73a791aa84b608c5a1
@@ -111,8 +111,8 @@ spec:
                   initialDelaySeconds: 15
               startup:
                 enabled: false
-              securityContext: *securityContext
-              resources: *resources
+            securityContext: *securityContext
+            resources: *resources
         pod:
           securityContext:
             runAsUser: 999
@@ -121,19 +121,17 @@ spec:
             fsGroup: 999
             fsGroupChangePolicy: OnRootMismatch
     ingress:
-      main:
-        enabled: true
+      app:
         className: internal
         hosts:
           - host: &host "{{ .Release.Name }}.cutternewmoon.com"
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: api
                   port: http
         tls:
-          - hosts:
-              - *host
+          - hosts: [*host]
     persistence:
       config:
         enabled: true
@@ -141,7 +139,8 @@ spec:
         globalMounts:
           - path: *configDir
     service:
-      main:
+      app:
+        controller: onepassword-connect
         ports:
           http:
             port: *apiPort
