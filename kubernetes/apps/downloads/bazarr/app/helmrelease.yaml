@@ -17,7 +17,7 @@ spec:
   interval: 30m
   values:
     controllers:
-      main:
+      bazarr:
         type: statefulset
         annotations:
           secret.reloader.stakater.com/reload: &secret bazarr-secret
@@ -80,6 +80,7 @@ spec:
                 memory: 128M
     service:
       main:
+        controller: bazarr
         ports:
           http:
             port: 6767
@@ -89,7 +90,6 @@ spec:
         existingClaim: glabdownloadsclaim
         globalMounts:
           - path: /media
-            retain: true
       tmp:
         type: emptyDir
       add-ons:
