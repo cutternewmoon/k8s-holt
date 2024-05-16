@@ -7,7 +7,7 @@ spec:
   interval: 30m
   chart:
     spec:
-      chart: avorion
+      chart: aorion
       version: 6.0.5
       sourceRef:
         kind: HelmRepository
