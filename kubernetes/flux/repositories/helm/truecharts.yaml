@@ -2,9 +2,8 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: avorion
+  name: truecharts
   namespace: flux-system
 spec:
-  type: oci
   interval: 1h
-  url: oci://tccr.io/truecharts/avorion
+  url: https://charts.truecharts.org
