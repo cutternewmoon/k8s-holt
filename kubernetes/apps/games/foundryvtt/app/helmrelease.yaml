@@ -4,6 +4,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: foundryvtt
+  namespace: games
 spec:
   interval: 15m
   chart:
