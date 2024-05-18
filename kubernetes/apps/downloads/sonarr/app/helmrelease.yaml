@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/ishioni/CRDs-catalog/main/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: sonarr
@@ -61,7 +61,7 @@ spec:
                   - path: /config
             image:
               repository: ghcr.io/onedr0p/sonarr-develop
-              tag: 4.0.2.1408
+              tag: 4.0.4.1668
             env:
               TZ: "${CONFIG_TIMEZONE}"
               SONARR__INSTANCE_NAME: Sonarr

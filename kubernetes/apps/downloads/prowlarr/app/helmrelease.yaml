@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/ishioni/CRDs-catalog/main/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: prowlarr
@@ -58,7 +58,7 @@ spec:
                   - path: /config
             image:
               repository: ghcr.io/onedr0p/prowlarr
-              tag: 1.15.0.4361
+              tag: 1.17.2.4511
             env:
               TZ: "${CONFIG_TIMEZONE}"
               PROWLARR__INSTANCE_NAME: ${APP}

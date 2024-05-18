@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/ishioni/CRDs-catalog/main/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: lidarr
@@ -58,7 +58,7 @@ spec:
                   - path: /config
             image:
               repository: ghcr.io/onedr0p/lidarr-develop
-              tag: 2.2.3.4098@sha256:ddb5035c57005792761e60371ab7e2ca3e0804fa5ab6952266b0d5f797ed08c2
+              tag: 2.3.3.4204@sha256:1809cc8303338d1d0d5f46718dfcd70b6f6cc312717b42a76dcb6edc83df38b4
             env:
               TZ: "${CONFIG_TIMEZONE}"
               LIDARR__INSTANCE_NAME: ${APP}
