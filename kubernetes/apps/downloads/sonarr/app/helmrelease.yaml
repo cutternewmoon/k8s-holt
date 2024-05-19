@@ -43,13 +43,6 @@ spec:
               - 65536
         containers:
           main:
-            volumeClaimTemplates:
-              - name: config
-                accessMode: ReadWriteOnce
-                size: 50Gi
-                storageClass: k8s-config
-                globalMounts:
-                  - path: /config
             image:
               repository: ghcr.io/onedr0p/sonarr-develop
               tag: 4.0.4.1668
