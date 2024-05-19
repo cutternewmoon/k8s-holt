@@ -60,9 +60,10 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
     service:
       main:
+        controller: main
         ports:
           http:
-            port: 5055
+            port: &port 5055
     ingress:
       main:
         enabled: true
@@ -76,7 +77,7 @@ spec:
                 pathType: Prefix
                 service:
                   name: main
-                  port: http
+                  port: *port
         tls:
           - hosts:
               - *host
