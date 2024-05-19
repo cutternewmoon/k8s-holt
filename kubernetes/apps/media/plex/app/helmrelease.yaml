@@ -94,12 +94,11 @@ spec:
               - *host
 
     persistence:
-      nfs-nas-media:
-        existingClaim: glabmediaclaim
-        advancedMounts:
-          main:
-            main:
-              - path: /Media
+      media:
+        type: persistentVolumeClaim
+        existingClaim: glabdownloadsclaim
+        globalMounts:
+          - path: /media
       transcode:
         type: emptyDir
         globalMounts:
