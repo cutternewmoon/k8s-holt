@@ -107,7 +107,6 @@ spec:
         existingClaim: glabdownloadsclaim
         globalMounts:
           - path: /media
-        retain: true
       tmp:
         type: emptyDir
     ingress:
