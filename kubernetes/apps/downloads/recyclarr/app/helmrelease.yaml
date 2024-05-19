@@ -60,4 +60,5 @@ spec:
             readOnly: true
     service:
       main:
+        controller: main
         enabled: false
