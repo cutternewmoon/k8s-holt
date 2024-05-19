@@ -96,7 +96,7 @@ spec:
     persistence:
       media:
         type: persistentVolumeClaim
-        existingClaim: glabdownloadsclaim
+        existingClaim: glabmediaclaim
         globalMounts:
           - path: /media
       transcode:
