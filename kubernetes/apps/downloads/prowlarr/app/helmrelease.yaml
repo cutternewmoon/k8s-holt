@@ -49,13 +49,6 @@ spec:
               - 65536
         containers:
           main:
-            volumeClaimTemplates:
-              - name: config
-                accessMode: ReadWriteOnce
-                size: 50Gi
-                storageClass: k8s-config
-                globalMounts:
-                  - path: /config
             image:
               repository: ghcr.io/onedr0p/prowlarr
               tag: 1.17.2.4511
@@ -98,16 +91,23 @@ spec:
                 memory: 500Mi
     service:
       main:
+        controller: main
         ports:
           http:
             port: *port
     persistence:
+      config:
+        accessMode: ReadWriteOnce
+        size: 50Gi
+        storageClass: k8s-config
+        retain: true
+        globalMounts:
+          - path: /config
       media:
-        enabled: true
         existingClaim: glabdownloadsclaim
         globalMounts:
           - path: /media
-            retain: true
+        retain: true
       tmp:
         type: emptyDir
     ingress:
@@ -131,5 +131,5 @@ spec:
               - path: /
                 service:
                   name: main
-                  port: http
+                  port: *port
         tls: [hosts: [*host]]
