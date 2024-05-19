@@ -49,13 +49,6 @@ spec:
               - 65536
         containers:
           main:
-            volumeClaimTemplates:
-              - name: config
-                accessMode: ReadWriteOnce
-                size: 50Gi
-                storageClass: k8s-config
-                globalMounts:
-                  - path: /config
             image:
               repository: ghcr.io/onedr0p/lidarr-develop
               tag: 2.3.3.4204@sha256:1809cc8303338d1d0d5f46718dfcd70b6f6cc312717b42a76dcb6edc83df38b4
@@ -102,6 +95,13 @@ spec:
           http:
             port: *port
     persistence:
+      config:
+        enabled: true
+        accessMode: ReadWriteOnce
+        size: 50Gi
+        storageClass: k8s-config
+        globalMounts:
+          - path: /config
       media:
         enabled: true
         existingClaim: glabdownloadsclaim
