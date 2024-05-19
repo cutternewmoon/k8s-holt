@@ -91,23 +91,23 @@ spec:
                 memory: 1Gi
     service:
       main:
+        controller: main
         ports:
           http:
             port: *port
     persistence:
       config:
-        enabled: true
         accessMode: ReadWriteOnce
         size: 50Gi
         storageClass: k8s-config
         globalMounts:
           - path: /config
+        retain: true
       media:
-        enabled: true
         existingClaim: glabdownloadsclaim
         globalMounts:
           - path: /media
-            retain: true
+        retain: true
       tmp:
         type: emptyDir
     ingress:
@@ -120,5 +120,5 @@ spec:
               - path: /
                 service:
                   name: main
-                  port: http
+                  port: 80
         tls: [hosts: [*host]]
