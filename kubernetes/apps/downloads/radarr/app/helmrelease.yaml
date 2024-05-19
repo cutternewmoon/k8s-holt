@@ -41,13 +41,6 @@ spec:
               - 65536
         containers:
           main:
-            volumeClaimTemplates:
-              - name: config
-                accessMode: ReadWriteOnce
-                size: 50Gi
-                storageClass: k8s-config
-                globalMounts:
-                  - path: /config
             image:
               repository: ghcr.io/onedr0p/radarr
               tag: 5.6.0.8846
