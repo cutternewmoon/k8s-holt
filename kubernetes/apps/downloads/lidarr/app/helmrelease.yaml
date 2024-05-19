@@ -104,10 +104,10 @@ spec:
           - path: /config
         retain: true
       media:
+        type: persistentVolumeClaim
         existingClaim: glabdownloadsclaim
         globalMounts:
           - path: /media
-        retain: true
       tmp:
         type: emptyDir
     ingress:
