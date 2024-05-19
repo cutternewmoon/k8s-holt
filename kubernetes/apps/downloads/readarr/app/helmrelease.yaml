@@ -90,16 +90,16 @@ spec:
                 memory: 2000Mi
     service:
       main:
+        controller: main
         ports:
           http:
             port: *port
     persistence:
       media:
-        enabled: true
+        type: persistentVolumeClaim
         existingClaim: glabdownloadsclaim
         globalMounts:
           - path: /media
-            retain: true
       tmp:
         type: emptyDir
     ingress:
@@ -112,5 +112,5 @@ spec:
               - path: /
                 service:
                   name: main
-                  port: http
+                  port: *port
         tls: [hosts: [*host]]
