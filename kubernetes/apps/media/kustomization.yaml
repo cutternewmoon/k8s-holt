@@ -5,5 +5,5 @@ resources:
   - ./namespace.yaml
   - ./overseerr/ks.yaml
   - ./storage.yaml
-  # - ./plex/ks.yaml
+  - ./plex/ks.yaml
   - ./wizarr/ks.yaml
